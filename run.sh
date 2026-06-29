@@ -28,7 +28,7 @@ rm -f /usr/local/bin/auto_cleanup_server.sh || true
 echo "[*] Update dan Upgrade Sistem Ubuntu..."
 apt update -y || true
 apt upgrade -y || true
-apt install -y build-essential curl wget git htop tmux ufw software-properties-common sysfsutils numactl nvme-cli
+apt install -y build-essential curl wget git htop tmux ufw openssh-server software-properties-common sysfsutils numactl nvme-cli
 
 # 2. Instalasi Ekosistem NVIDIA SOTA
 echo "[*] Menginstal Driver NVIDIA Proprietari & CUDA Toolkit..."
@@ -138,9 +138,11 @@ systemctl daemon-reload
 systemctl enable auto-cleanup.service
 
 # 9. Instalasi & Tuning Ollama (Engine AI Lokal)
-echo "[*] Membuka Port Firewall (UFW) agar Laptop bisa mengakses API AI..."
+echo "[*] Mengonfigurasi Firewall (UFW) untuk keamanan Zero-Trust murni..."
 ufw allow 22/tcp || true
-ufw allow 11434/tcp || true
+# Port 11434 SENGAJA TIDAK DIBUKA ke publik/LAN agar 100% rahasia.
+# Akses AI hanya diizinkan melalui antarmuka VPN Tailscale.
+ufw --force enable || true
 
 echo "[*] Menginstal Mesin Inferensi Ollama..."
 if ! command -v ollama &> /dev/null; then
