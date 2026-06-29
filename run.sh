@@ -142,6 +142,10 @@ echo "[*] Menginstal Podman (Pengganti Docker yang Daemonless)..."
 apt install -y podman podman-compose
 
 # 9. Instalasi & Tuning Ollama (Engine AI Lokal)
+echo "[*] Membuka Port Firewall (UFW) agar Laptop bisa mengakses API AI..."
+ufw allow 22/tcp || true
+ufw allow 11434/tcp || true
+
 echo "[*] Menginstal Mesin Inferensi Ollama..."
 if ! command -v ollama &> /dev/null; then
   curl -fsSL https://ollama.com/install.sh | sh
