@@ -39,11 +39,11 @@ This script performs a deep, end-game optimization of Ubuntu Server, ensuring ze
    ```
 2. Make the script executable:
    ```bash
-   chmod +x optimasi_server_ai_2026.sh
+   chmod +x run.sh
    ```
 3. Run the script as root/sudo:
    ```bash
-   sudo ./optimasi_server_ai_2026.sh
+   sudo ./run.sh
    ```
 4. Reboot the server to apply GRUB, Kernel, and Systemd changes:
    ```bash
