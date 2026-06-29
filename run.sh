@@ -165,6 +165,20 @@ EOF
 systemctl daemon-reload
 systemctl restart ollama || true
 
+# 10. Instalasi Jaringan Zero-Trust (Tailscale & Cloudflared)
+echo "[*] Menginstal Jaringan Zero-Trust (Tailscale) dan Tunneling (Cloudflared)..."
+if ! command -v tailscale &> /dev/null; then
+  curl -fsSL https://tailscale.com/install.sh | sh
+  echo "[*] Mengizinkan interface Tailscale di Firewall..."
+  ufw allow in on tailscale0 || true
+fi
+
+if ! command -v cloudflared &> /dev/null; then
+  curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+  dpkg -i cloudflared.deb || true
+  rm -f cloudflared.deb
+fi
+
 # Server ini didedikasikan murni sebagai API Backend AI (Ollama) dan Staging/Hosting (Podman).
 # Alat pengembang (seperti Aider, Zellij, Pipx) tidak diinstal di sini karena aktivitas coding dilakukan di komputer klien (Laptop).
 

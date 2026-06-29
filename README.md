@@ -28,6 +28,8 @@ This script performs a deep, end-game optimization of Ubuntu Server, ensuring ze
    - Installs NVIDIA proprietary drivers and CUDA toolkit.
    - Installs Ollama (Inference engine) injected with Dual-GPU distribution configs and bound to 0.0.0.0 for Local Area Network (LAN) API access.
    - Installs Podman (Daemonless containers for Microservices architecture).
+   - Installs Tailscale for secure, zero-trust Mesh VPN access to the server from anywhere.
+   - Installs Cloudflared for securely tunneling web apps (like ERP frontends) to the public internet without exposing the server's real IP.
 
 ## Usage
 
