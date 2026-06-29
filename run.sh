@@ -155,7 +155,6 @@ cat <<EOF > /etc/systemd/system/ollama.service.d/override.conf
 [Service]
 Environment="OLLAMA_HOST=0.0.0.0"
 Environment="OLLAMA_NUM_PARALLEL=2"
-Environment="OLLAMA_MAX_VRAM=64424509440" 
 OOMScoreAdjust=-1000
 ExecStart=
 ExecStart=/usr/bin/numactl --interleave=all /usr/local/bin/ollama serve
