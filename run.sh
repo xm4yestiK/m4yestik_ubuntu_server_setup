@@ -17,6 +17,9 @@ fi
 # Mengatasi bug eksekusi root murni (jika tidak pakai sudo)
 REAL_USER=${SUDO_USER:-root}
 
+# Mencegah instalasi APT terhenti oleh prompt interaktif (100% Full Otomatis)
+export DEBIAN_FRONTEND=noninteractive
+
 echo "[+] Memulai Optimasi Ekstrem (End-Game) Ubuntu Server untuk AI..."
 
 # 0. Pembersihan Residu dari Skrip Versi Lama (Backward Compatibility)
@@ -26,17 +29,17 @@ rm -f /usr/local/bin/auto_cleanup_server.sh || true
 
 # 1. Update & Upgrade Sistem Dasar
 echo "[*] Update dan Upgrade Sistem Ubuntu..."
-apt update -y || true
-apt upgrade -y || true
-apt install -y build-essential curl wget git htop tmux ufw openssh-server software-properties-common sysfsutils numactl nvme-cli
+apt update -yq || true
+apt upgrade -yq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" || true
+apt install -yq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" build-essential curl wget git htop tmux ufw openssh-server software-properties-common sysfsutils numactl nvme-cli
 
 # 2. Instalasi Ekosistem NVIDIA SOTA
 echo "[*] Menginstal Driver NVIDIA Proprietari & CUDA Toolkit..."
 if ! command -v nvidia-smi &> /dev/null; then
   add-apt-repository ppa:graphics-drivers/ppa -y || true
-  apt update -y || true
+  apt update -yq || true
   ubuntu-drivers autoinstall || true
-  apt install -y nvidia-cuda-toolkit || true
+  apt install -yq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" nvidia-cuda-toolkit || true
 fi
 
 echo "[*] Mengaktifkan NVIDIA Persistence Daemon..."
@@ -68,7 +71,7 @@ systemctl start ai-server-startup.service || true
 
 # 4. Optimasi Tingkat Dewa: Threadripper (NUMA, IOMMU, & PCIe P2P Dual GPU)
 echo "[*] Memaksa CPU Governor ke mode 'performance'..."
-apt install -y linux-tools-common linux-tools-generic cpufrequtils || true
+apt install -yq -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" linux-tools-common linux-tools-generic cpufrequtils || true
 if [ -f /etc/default/cpufrequtils ]; then
   echo 'GOVERNOR="performance"' > /etc/default/cpufrequtils
   systemctl restart cpufrequtils || true
