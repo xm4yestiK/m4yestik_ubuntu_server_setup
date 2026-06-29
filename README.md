@@ -23,11 +23,10 @@ This script performs a deep, end-game optimization of Ubuntu Server, ensuring ze
    - Overrides Out-Of-Memory (OOM) killer to protect the Ollama service.
    - Increases global `ulimit` (fs.file-max) to 1,048,576 to allow AI agents to parse massive enterprise codebases without limits.
 5. **Automated On-Demand Cleanup:**
-   - Installs a systemd service that automatically purges orphaned packages, old systemd logs (>2GB), and stopped Podman containers safely during the system shutdown sequence.
+   - Installs a systemd service that automatically purges orphaned packages and old systemd logs (>2GB) safely during the system shutdown sequence.
 6. **AI Toolchain Installation:**
    - Installs NVIDIA proprietary drivers and CUDA toolkit.
    - Installs Ollama (Inference engine) injected with Dual-GPU distribution configs and bound to 0.0.0.0 for Local Area Network (LAN) API access.
-   - Installs Podman (Daemonless containers for Microservices architecture).
    - Installs Tailscale for secure, zero-trust Mesh VPN access to the server from anywhere.
 
 ## Usage

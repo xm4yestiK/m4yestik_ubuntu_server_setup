@@ -128,7 +128,7 @@ Before=shutdown.target halt.target poweroff.target
 
 [Service]
 Type=oneshot
-ExecStart=/bin/sh -c 'echo "Menjalankan pembersihan ekstrem..." && journalctl --vacuum-time=7d && journalctl --vacuum-size=2G && apt-get autoremove --purge -y && apt-get clean && rm -rf /var/cache/apt/archives/* && podman system prune -f'
+ExecStart=/bin/sh -c 'echo "Menjalankan pembersihan ekstrem..." && journalctl --vacuum-time=7d && journalctl --vacuum-size=2G && apt-get autoremove --purge -y && apt-get clean && rm -rf /var/cache/apt/archives/*'
 TimeoutSec=90
 
 [Install]
@@ -136,10 +136,6 @@ WantedBy=shutdown.target halt.target poweroff.target
 EOF
 systemctl daemon-reload
 systemctl enable auto-cleanup.service
-
-# 8. Instalasi Podman (Arsitektur Microservices)
-echo "[*] Menginstal Podman (Pengganti Docker yang Daemonless)..."
-apt install -y podman podman-compose
 
 # 9. Instalasi & Tuning Ollama (Engine AI Lokal)
 echo "[*] Membuka Port Firewall (UFW) agar Laptop bisa mengakses API AI..."
@@ -173,7 +169,7 @@ if ! command -v tailscale &> /dev/null; then
   ufw allow in on tailscale0 || true
 fi
 
-# Server ini didedikasikan murni sebagai API Backend AI (Ollama) dan Staging/Hosting (Podman).
+# Server ini didedikasikan murni sebagai API Backend AI (Ollama).
 # Alat pengembang (seperti Aider, Zellij, Pipx) tidak diinstal di sini karena aktivitas coding dilakukan di komputer klien (Laptop).
 
 echo "==========================================================================="
