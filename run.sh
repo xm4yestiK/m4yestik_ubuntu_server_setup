@@ -151,6 +151,7 @@ echo "[*] Menginjeksi Environment Variable Ollama (Tuning Dual GPU & NUMA)..."
 mkdir -p /etc/systemd/system/ollama.service.d
 cat <<EOF > /etc/systemd/system/ollama.service.d/override.conf
 [Service]
+Environment="OLLAMA_HOST=0.0.0.0"
 Environment="OLLAMA_NUM_PARALLEL=2"
 Environment="OLLAMA_MAX_VRAM=64424509440" 
 OOMScoreAdjust=-1000
@@ -160,27 +161,8 @@ EOF
 systemctl daemon-reload
 systemctl restart ollama || true
 
-# 10. Instalasi Pipx & Aider (CLI Agentic)
-echo "[*] Menginstal Ekosistem Aider CLI Agentic..."
-apt install -y pipx
-pipx ensurepath || true
-if [ "$REAL_USER" != "root" ]; then
-  sudo -u $REAL_USER pipx ensurepath || true
-  # Hindari reinstall jika sudah ada
-  if ! sudo -u $REAL_USER pipx list | grep -q "aider-chat"; then
-    sudo -u $REAL_USER pipx install aider-chat
-  fi
-else
-  if ! pipx list | grep -q "aider-chat"; then
-    pipx install aider-chat
-  fi
-fi
-
-# 11. Instalasi Zellij (Terminal Multiplexer SOTA)
-echo "[*] Menginstal Zellij (Modern Terminal Multiplexer)..."
-if ! command -v zellij &> /dev/null; then
-  curl -sL https://github.com/zellij-org/zellij/releases/latest/download/zellij-x86_64-unknown-linux-musl.tar.gz | tar -xz -C /usr/local/bin || echo "[-] Peringatan: Gagal mengunduh Zellij, abaikan."
-fi
+# Server ini didedikasikan murni sebagai API Backend AI (Ollama) dan Staging/Hosting (Podman).
+# Alat pengembang (seperti Aider, Zellij, Pipx) tidak diinstal di sini karena aktivitas coding dilakukan di komputer klien (Laptop).
 
 echo "==========================================================================="
 echo "[+] OPTIMASI END-GAME SELESAI 100% TANPA ERROR!"

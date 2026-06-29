@@ -26,9 +26,8 @@ This script performs a deep, end-game optimization of Ubuntu Server, ensuring ze
    - Installs a systemd service that automatically purges orphaned packages, old systemd logs (>2GB), and stopped Podman containers safely during the system shutdown sequence.
 6. **AI Toolchain Installation:**
    - Installs NVIDIA proprietary drivers and CUDA toolkit.
-   - Installs Ollama (Inference engine) injected with Dual-GPU distribution configs.
+   - Installs Ollama (Inference engine) injected with Dual-GPU distribution configs and bound to 0.0.0.0 for Local Area Network (LAN) API access.
    - Installs Podman (Daemonless containers for Microservices architecture).
-   - Installs Pipx, Aider-Chat (Agentic CLI), and Zellij (Terminal multiplexer).
 
 ## Usage
 
