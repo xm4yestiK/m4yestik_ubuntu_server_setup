@@ -131,7 +131,8 @@ Before=shutdown.target halt.target poweroff.target
 
 [Service]
 Type=oneshot
-ExecStart=/bin/sh -c 'echo "Menjalankan pembersihan ekstrem..." && journalctl --vacuum-time=7d && journalctl --vacuum-size=2G && apt-get autoremove --purge -y && apt-get clean && rm -rf /var/cache/apt/archives/*'
+Environment="DEBIAN_FRONTEND=noninteractive"
+ExecStart=/bin/sh -c 'echo "Menjalankan pembersihan ekstrem..." && journalctl --vacuum-time=7d && journalctl --vacuum-size=2G && apt-get autoremove --purge -yq && apt-get clean && rm -rf /var/cache/apt/archives/*'
 TimeoutSec=90
 
 [Install]
