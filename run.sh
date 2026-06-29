@@ -43,8 +43,8 @@ if ! command -v nvidia-smi &> /dev/null; then
 fi
 
 echo "[*] Mengaktifkan NVIDIA Persistence Daemon..."
-systemctl enable nvidia-persistenced
-systemctl start nvidia-persistenced
+systemctl enable nvidia-persistenced || true
+systemctl start nvidia-persistenced || true
 
 # 3. Startup Service (Pengganti rc.local yang usang)
 echo "[*] Membuat Service Startup Kustom untuk Optimasi GPU dan THP..."
